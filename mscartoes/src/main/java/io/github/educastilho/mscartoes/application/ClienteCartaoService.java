@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.github.educastilho.mscartoes.application.representation.ClienteCartao;
+import io.github.educastilho.mscartoes.domain.ClienteCartao;
 import io.github.educastilho.mscartoes.infra.repository.ClienteCartaoRepository;
 
 @Service

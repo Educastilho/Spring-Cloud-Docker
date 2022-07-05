@@ -1,4 +1,4 @@
-package io.github.educastilho.mscartoes.application.representation;
+package io.github.educastilho.mscartoes.domain;
 
 import java.math.BigDecimal;
 
@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import io.github.educastilho.mscartoes.domain.Cartao;
 
 @Entity
 public class ClienteCartao {

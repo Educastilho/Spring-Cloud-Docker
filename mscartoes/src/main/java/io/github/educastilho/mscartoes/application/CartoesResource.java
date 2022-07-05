@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.educastilho.mscartoes.application.representation.CartaoSaveRequest;
 import io.github.educastilho.mscartoes.application.representation.CartoesPorClienteResponse;
-import io.github.educastilho.mscartoes.application.representation.ClienteCartao;
 import io.github.educastilho.mscartoes.domain.Cartao;
+import io.github.educastilho.mscartoes.domain.ClienteCartao;
 
 @RestController
 @RequestMapping("cartoes")

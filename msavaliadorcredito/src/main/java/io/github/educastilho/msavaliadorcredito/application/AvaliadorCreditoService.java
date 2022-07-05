@@ -2,6 +2,7 @@ package io.github.educastilho.msavaliadorcredito.application;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,20 @@ import org.springframework.stereotype.Service;
 
 import feign.FeignException;
 import feign.FeignException.FeignClientException;
+import io.github.educastilho.msavaliadorcredito.application.ex.DadosClienteNotFoundException;
+import io.github.educastilho.msavaliadorcredito.application.ex.ErroComunicacaoMicroServicesException;
+import io.github.educastilho.msavaliadorcredito.application.ex.ErroSolicitacaoCartaoException;
 import io.github.educastilho.msavaliadorcredito.domain.model.Cartao;
 import io.github.educastilho.msavaliadorcredito.domain.model.CartaoAprovado;
 import io.github.educastilho.msavaliadorcredito.domain.model.CartaoCliente;
 import io.github.educastilho.msavaliadorcredito.domain.model.DadosCliente;
+import io.github.educastilho.msavaliadorcredito.domain.model.DadosEmissaoCartao;
+import io.github.educastilho.msavaliadorcredito.domain.model.ProtocoloSolicitacaoCartao;
 import io.github.educastilho.msavaliadorcredito.domain.model.RetornoAvaliacaoCliente;
 import io.github.educastilho.msavaliadorcredito.domain.model.SituacaoCliente;
 import io.github.educastilho.msavaliadorcredito.infra.clients.CartaoResourceClient;
 import io.github.educastilho.msavaliadorcredito.infra.clients.ClienteResourceClient;
+import io.github.educastilho.msavaliadorcredito.infra.mqueue.SolicitacaoEmissaoCartaoPublisher;
 
 @Service
 public class AvaliadorCreditoService {
@@ -28,6 +35,9 @@ public class AvaliadorCreditoService {
 	
 	@Autowired
 	private CartaoResourceClient cartaoClient;
+	
+	@Autowired
+	private SolicitacaoEmissaoCartaoPublisher solicitacaoEmissaoCartaoPublisher;
 
 	public SituacaoCliente obterSituacaoCliente(String cpf) throws DadosClienteNotFoundException, ErroComunicacaoMicroServicesException {
 		
@@ -92,6 +102,16 @@ public class AvaliadorCreditoService {
 			throw new ErroComunicacaoMicroServicesException(e.getMessage(), status);
 		}
 		
+	}
+	
+	public ProtocoloSolicitacaoCartao solicitarEmissaoCartao(DadosEmissaoCartao dados) {
+		try {
+			solicitacaoEmissaoCartaoPublisher.solicitarCartao(dados);
+			String protocolo = UUID.randomUUID().toString();
+			return new ProtocoloSolicitacaoCartao(protocolo);
+		} catch (Exception e) {
+			throw new ErroSolicitacaoCartaoException(e.getMessage());
+		}
 	}
 	
 }

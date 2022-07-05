@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import io.github.educastilho.mscartoes.application.representation.ClienteCartao;
+import io.github.educastilho.mscartoes.domain.ClienteCartao;
 
 public interface ClienteCartaoRepository extends JpaRepository<ClienteCartao, Long> {
 

@@ -1,4 +1,4 @@
-package io.github.educastilho.msavaliadorcredito.application;
+package io.github.educastilho.msavaliadorcredito.application.ex;
 
 public class DadosClienteNotFoundException extends Exception {
 
