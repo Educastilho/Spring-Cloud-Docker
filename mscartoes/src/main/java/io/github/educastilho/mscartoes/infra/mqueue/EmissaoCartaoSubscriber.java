@@ -1,5 +1,7 @@
 package io.github.educastilho.mscartoes.infra.mqueue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -17,6 +19,8 @@ import io.github.educastilho.mscartoes.infra.repository.ClienteCartaoRepository;
 
 @Component
 public class EmissaoCartaoSubscriber {
+	
+	private static final Logger logger = LoggerFactory.getLogger(EmissaoCartaoSubscriber.class);
 	
 	@Autowired
 	private CartaoRepository cartaoRepository;
@@ -36,9 +40,9 @@ public class EmissaoCartaoSubscriber {
 			clienteCartao.setLimite(dadosEmissaoCartao.getLimiteLiberado());
 			clienteCartaoRepository.save(clienteCartao);
 		} catch (JsonMappingException e) {
-			e.printStackTrace();
+			logger.error("erro ao receber solicitação de emissão de cartão");
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+			logger.error("erro ao receber solicitação de emissão de cartão");
 		}
 	}
 }

@@ -12,13 +12,13 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8081/realms/mscourserealm
-          
+
 server:
   port: 8080
-  
+
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultzone: http://localhost:8761/eureka
+      defaultZone: http://admin:admin@localhost:8761/eureka
